@@ -3,6 +3,8 @@
  */
 package SpringBoot.Proxys;
 
+import java.lang.reflect.Proxy;
+
 public class App {
     public static void main(String[] args) {
 
@@ -10,8 +12,14 @@ public class App {
 
         //reflection is  used to create the proxy object
         ClassLoader mohanClassLoader = mohan.getClass().getClassLoader();
-        class[] interfaces = mohan.getClass().getClasses();
         Class[] interfaces = mohan.getClass().getInterfaces();
-        Person proxyMohan = Prox
+        Person proxyMohan = (Person) Proxy.newProxyInstance(mohanClassLoader, interfaces, new PersonInvocationHandler(mohan));
+        proxyMohan.introduce("Mohan");
+
+        proxyMohan.sayAge(25);
+
+        proxyMohan.sayNationality("Delhi", "India");
+
+
     }
 }
